@@ -42,6 +42,12 @@
                     <button id="loginButton" class="px-2 py-1 rounded bg-[#00b8ff] text-white text-xs hover:bg-[#06a4dd] transition duration-300 ease-in-out transform hover:scale-105">Login</button>
                 </div>
             </form>
+            <!-- New Register button added below -->
+            <div class="flex justify-end items-center mt-3">
+                <form method="post" action="/player/growid/register/validate">
+                    <button id="registerButton" class="px-2 py-1 rounded bg-[#4caf50] text-white text-xs hover:bg-[#43a047] transition duration-300 ease-in-out transform hover:scale-105">Register</button>
+                </form>
+            </div>
         </div>
     </div>
     <script>
@@ -49,9 +55,6 @@
             if (localStorage.getItem('growId')) {
                 document.getElementById('loginGrowId').value = localStorage.getItem('growId');
             }
-
-            const loginGrowId = document.getElementById('loginGrowId').value
-            const loginPassword = document.getElementById('loginPassword').value
         });
         document.getElementById('loginButton').addEventListener('click', function (event) {
             event.preventDefault();
@@ -72,9 +75,9 @@
                 loginForm.submit();
                 localStorage.setItem('growId', document.getElementById('loginGrowId').value);
             }
-        })
+        });
         document.getElementById('toggleLogPassword').addEventListener('click', function () {
-            const LpasswordField = document.getElementById('loginPassword')
+            const LpasswordField = document.getElementById('loginPassword');
             const LpasswordFieldType = LpasswordField.getAttribute('type');
             if (LpasswordFieldType === 'password') {
                 LpasswordField.setAttribute('type', 'text');
