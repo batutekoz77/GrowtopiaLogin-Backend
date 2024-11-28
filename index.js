@@ -45,14 +45,25 @@ app.all('/player/growid/login/validate', (req, res) => {
     const growId = req.body.growId;
     const password = req.body.password;
 
-    const token = Buffer.from(
-        `_token=${_token}&growId=${growId}&password=${password}`,
-    ).toString('base64');
+    const token = Buffer.from(`Token|${_token}\nGrowID=${growId}\nPassword=${password}\nAccess|login`,).toString('base64');
 
     res.send(
         `{"status":"success","message":"Account Validated.","token":"${token}","url":"","accountType":"growtopia"}`,
     );
 });
+
+app.post("/player/growid/login/validate", (req, res) => {
+    const growId = req.body.growId;
+    const password = req.body.password;
+    const token = Buffer.from(`GrowID|${growId}\nPassword|${password}\nAccess|login`,).toString("base64");
+    res.send(`{"status":"success","message":"Account Validated.","token":"${token}","url":"","accountType":"growtopia"}`,);
+});
+
+app.post("/player/growid/register/validate", (req, res) => {
+    const token = Buffer.from(`Access|register`,).toString("base64");
+    res.send(`{"status":"success","message":"Account Validated.","token":"${token}","url":"","accountType":"growtopia"}`,);
+});
+
 
 app.get('/', function (req, res) {
     res.send('Hello World!');
