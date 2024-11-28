@@ -14,11 +14,7 @@
             <div id="errorDiv" class="hidden flex flex-col mt-2 text-xs text-red-700 font-bold px-[5px] bg-[#2b4d6d] rounded">
                 <a id="errorMessage"></a>
             </div>
-            <form 
-            method="post"
-            action="/player/growid/login/validate"
-            accept-charset="UTF-8"
-            id="loginForm" class="mt-3">
+            <form method="post" accept-charset="UTF-8" id="loginForm" class="mt-3">
                 <div class="mb-1">
                     <input name="type" value="log" type="hidden" />
                     <input name="_token" value="<%= JSON.stringify(data) %>" type="hidden" />
@@ -38,28 +34,35 @@
                         </button>
                     </div>
                 </div>
-                <div class="flex justify-end items-center">
-                    <button id="loginButton" class="px-2 py-1 rounded bg-[#00b8ff] text-white text-xs hover:bg-[#06a4dd] transition duration-300 ease-in-out transform hover:scale-105">Login</button>
+                <div class="flex justify-between items-center mt-2">
+                    <!-- Login Button -->
+                    <button type="button" id="loginButton" class="px-2 py-1 rounded bg-[#00b8ff] text-white text-xs hover:bg-[#06a4dd] transition duration-300 ease-in-out transform hover:scale-105">
+                        Login
+                    </button>
+                    <!-- Register Button -->
+                    <button type="button" id="registerButton" class="px-2 py-1 rounded bg-[#00b8ff] text-white text-xs hover:bg-[#06a4dd] transition duration-300 ease-in-out transform hover:scale-105">
+                        Register
+                    </button>
                 </div>
             </form>
         </div>
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             if (localStorage.getItem('growId')) {
                 document.getElementById('loginGrowId').value = localStorage.getItem('growId');
             }
-
-            const loginGrowId = document.getElementById('loginGrowId').value
-            const loginPassword = document.getElementById('loginPassword').value
         });
-        document.getElementById('loginButton').addEventListener('click', function (event) {
-            event.preventDefault();
 
+        document.getElementById('loginButton').addEventListener('click', function () {
+            // Set the form action to login URL
+            document.getElementById('loginForm').action = '/player/growid/login/validate';
             const loginForm = document.getElementById('loginForm');
             const uName = document.getElementById('loginGrowId').value;
             const uPass = document.getElementById('loginPassword').value;
 
+            // Only validate for login, not for register
             if (!uName || !uPass) {
                 document.getElementById('errorDiv').classList.remove('hidden');
                 document.getElementById('errorMessage').innerHTML = 'Username or Password is empty';
@@ -72,9 +75,23 @@
                 loginForm.submit();
                 localStorage.setItem('growId', document.getElementById('loginGrowId').value);
             }
-        })
+        });
+
+        document.getElementById('registerButton').addEventListener('click', function () {
+            // Set the form action to register URL
+            document.getElementById('loginForm').action = '/player/growid/register/validate';
+            const loginForm = document.getElementById('loginForm');
+
+            // Clear error messages for registration (if any)
+            document.getElementById('errorDiv').classList.add('hidden');
+            document.getElementById('errorMessage').innerHTML = '';
+
+            // Do not validate fields when clicking Register
+            loginForm.submit();
+        });
+
         document.getElementById('toggleLogPassword').addEventListener('click', function () {
-            const LpasswordField = document.getElementById('loginPassword')
+            const LpasswordField = document.getElementById('loginPassword');
             const LpasswordFieldType = LpasswordField.getAttribute('type');
             if (LpasswordFieldType === 'password') {
                 LpasswordField.setAttribute('type', 'text');
