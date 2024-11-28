@@ -45,7 +45,7 @@ app.all('/player/growid/login/validate', (req, res) => {
     const growId = req.body.growId;
     const password = req.body.password;
 
-    const token = Buffer.from(`Token|${_token}\nGrowID=${growId}\nPassword=${password}\nAccess|login`,).toString('base64');
+    const token = Buffer.from(`Token|${_token}\nGrowID|${growId}\nPassword|${password}\nAccess|login`,).toString('base64');
 
     res.send(
         `{"status":"success","message":"Account Validated.","token":"${token}","url":"","accountType":"growtopia"}`,
